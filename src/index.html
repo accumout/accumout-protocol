@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Accumout | Recurring pay, rebuilt around the signer</title>
+<meta name="description" content="Accumout turns a connected balance into a payment method that renews subscriptions, meters usage, then caps what a bot may spend.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<meta property="og:title" content="Accumout">
+<meta property="og:description" content="Recurring pay aimed at signers, software and bots, cleared via Solana.">
+<meta property="og:image" content="https://accumout.fun/assets/og.jpg">
+<meta property="og:url" content="https://accumout.fun/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="fonts/InstrumentSans-500.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<div class="top" id="top">
+  <div class="ca" id="ca" data-rec="ca" data-state="absent">
+    <div class="ca-inner">
+      <span class="ca-label">Contract address</span>
+      <button class="ca-value" type="button" id="ca-copy" disabled aria-disabled="true">
+        <span class="ca-text" id="ca-text">pending</span>
+        <span class="ca-act" id="ca-act" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>
+          <span class="ca-act-t" id="ca-act-t">Copy</span>
+        </span>
+      </button>
+      <span class="ca-live" id="ca-live" role="status" aria-live="polite"></span>
+    </div>
+  </div>
+  <header class="nav-wrap">
+    <nav class="nav" aria-label="Primary">
+      <a class="brand" href="#hero" aria-label="Accumout home">
+        <img src="assets/icon-96.png" width="36" height="36" alt="" decoding="async">
+        <span>Accumout</span>
+      </a>
+      <ul class="links" id="links">
+        <li><a href="#market">Market</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#flow">Flow</a></li>
+        <li><a href="#modules">Modules</a></li>
+        <li><a href="#build">Use cases</a></li>
+      </ul>
+      <div class="nav-right">
+        <span class="chip chip-nav" data-rec="access"><span data-label>Invite list</span><em>pending</em></span>
+        <span class="social" data-rec="x" data-social="x" role="img" aria-label="X, pending" aria-disabled="true">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
+        </span>
+        <span class="social" data-rec="github" data-social="github" role="img" aria-label="GitHub, pending" aria-disabled="true">
+          <svg viewBox="0 0 16 16" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg>
+        </span>
+        <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="links" aria-label="Open menu"><span></span><span></span></button>
+      </div>
+    </nav>
+  </header>
+</div>
+
+<main id="main">
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="mesh" aria-hidden="true">
+      <i class="blob b1" data-depth="0.35"></i>
+      <i class="blob b2" data-depth="0.6"></i>
+      <i class="blob b3" data-depth="0.9"></i>
+      <div class="gridlines" data-depth="0.15"></div>
+      <img class="hero-mark" data-depth="1.3" src="assets/mark-1000.png" width="1000" height="875" alt="" decoding="async">
+      <span class="float f1" data-depth="1.8">Signed</span>
+      <span class="float f2" data-depth="2.2">Renews</span>
+      <span class="float f3" data-depth="1.5">Capped</span>
+    </div>
+    <div class="wrap hero-body">
+      <p class="eyebrow" data-hero-in><i class="dot" aria-hidden="true"></i>Pay rails for people who ship</p>
+      <h1 class="hero-title" id="hero-title" aria-label="Charge anyone who can sign.">Charge anyone who can sign.</h1>
+      <p class="hero-sub" data-hero-in>Accumout lets a signer renew a subscription, pay by the call, or hand software a fixed allowance. Funds clear over Solana, never resting in our hands.</p>
+      <div class="cta-row" data-hero-in>
+        <span class="btn btn-solid btn-inert" data-rec="access" aria-disabled="true"><span data-label>Join the invite list</span><em>pending</em></span>
+        <span class="btn btn-line btn-inert" data-rec="docs" aria-disabled="true"><span data-label>Read the docs</span><em>pending</em></span>
+      </div>
+    </div>
+    <div class="strip" aria-label="Key facts">
+      <div class="strip-track" id="strip-track">
+        <!-- filled by script, duplicated for the loop -->
+      </div>
+    </div>
+  </section>
+
+  <!-- MARKET -->
+  <section class="sec sec-dark" id="market">
+    <div class="wrap">
+      <div class="sec-head" data-stagger>
+        <p class="eyebrow eyebrow-light" data-reveal>Live board</p>
+        <h2 data-reveal>Ten Solana tokens, ranked by what traded.</h2>
+        <p class="lede" data-reveal>Public boost data, narrowed to the ten busiest names over a rolling day. The board runs on its own feed, so it never waits for our contract.</p>
+      </div>
+      <div class="board-bar" data-reveal>
+        <div class="tabs" role="tablist" aria-label="Sort the board" id="board-tabs">
+          <button role="tab" type="button" aria-selected="true" data-sort="volume">Volume</button>
+          <button role="tab" type="button" aria-selected="false" data-sort="movers">Movers</button>
+          <button role="tab" type="button" aria-selected="false" data-sort="depth">Depth</button>
+        </div>
+        <div class="pill" id="mkt-pill" data-status="connecting" role="status"><i class="pulse" aria-hidden="true"></i><span id="mkt-status">Connecting</span></div>
+      </div>
+      <div class="ticker" id="ticker" aria-hidden="true"><div class="ticker-track" id="ticker-track"></div></div>
+      <div class="board" id="board" data-spot-group>
+        <div class="board-head" aria-hidden="true">
+          <span>#</span><span>Token</span><span class="r">Price</span><span class="r">24h</span><span class="r">Volume</span><span class="r">Liquidity</span><span class="r">Copy</span>
+        </div>
+        <div class="board-rows" id="board-rows" aria-live="off"></div>
+      </div>
+      <p class="board-err" id="board-err" hidden>The feed could not be reached. Retrying with growing pauses; the last good numbers stay on screen.</p>
+      <p class="fine" data-reveal>Source: DexScreener boosts and pair data. Figures are market output, not a recommendation.</p>
+    </div>
+  </section>
+
+  <!-- WALKTHROUGH -->
+  <section class="sec sec-line" id="demo">
+    <div class="wrap">
+      <div class="sec-head center" data-stagger>
+        <p class="eyebrow" data-reveal>Walkthrough</p>
+        <h2 data-reveal>Watch a plan renew itself.</h2>
+        <p class="lede" data-reveal>A brief tour: one signature, then a subscription rolling forward, then a bot paying within its allowance.</p>
+      </div>
+      <div class="player" data-reveal data-spot>
+        <div class="player-bg" aria-hidden="true"></div>
+        <img src="assets/mark-500.png" width="500" height="437" alt="" class="player-mark" decoding="async">
+        <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z"/></svg></span>
+        <span class="chip chip-float" data-rec="walkthrough"><span data-label>Walkthrough</span><em>pending</em></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="sec" id="features">
+    <div class="wrap">
+      <div class="sec-head" data-stagger>
+        <p class="eyebrow" data-reveal>Capabilities</p>
+        <h2 data-reveal>Five blocks that cover the billing loop.</h2>
+      </div>
+      <div class="bento" data-stagger>
+        <article class="card c1" data-reveal data-spot>
+          <div class="card-copy">
+            <h3>Proof first, access second</h3>
+            <p>Every request arrives with a signature. The service verifies it and opens the resource in one step, with no redirect and no custody.</p>
+          </div>
+          <div class="mock mock-sign" aria-hidden="true">
+            <div class="mock-title">Approve request</div>
+            <div class="ph ph-xl"></div>
+            <div class="mock-rows">
+              <div><span>From</span><i class="ph"></i></div>
+              <div><span>Opens</span><i class="ph"></i></div>
+              <div><span>Network</span><b>Solana</b></div>
+            </div>
+            <div class="mock-btns"><span>Cancel</span><span class="on">Sign</span></div>
+          </div>
+        </article>
+        <article class="card c2" data-reveal data-spot>
+          <div class="card-copy">
+            <h3>Subscriptions without card files</h3>
+            <p>Define tiers that a signer can join and roll forward. Status lives on the ledger, so nothing sensitive sits on your side.</p>
+          </div>
+          <div class="mock mock-plans" aria-hidden="true">
+            <div class="mock-title">Your plans</div>
+            <div class="plan"><div><b>Tier A</b><span>Renews on its own</span></div><i class="ph"></i></div>
+            <div class="plan"><div><b>Tier B</b><span>Metered by use</span></div><i class="ph"></i></div>
+            <div class="plan dim"><div><b>Tier C</b><span>Paused</span></div><i class="ph"></i></div>
+          </div>
+        </article>
+        <article class="card c3" data-reveal data-spot>
+          <div class="card-copy">
+            <h3>Agents with a ceiling</h3>
+            <p>Set a cap, let software pay per call, and trace each payout without a human approving every step.</p>
+          </div>
+          <div class="mock mock-agent" aria-hidden="true">
+            <div class="agent-top"><i class="bot"></i><div><b>Agent wallet</b><span>Cap in force</span></div></div>
+            <div class="meter"><i></i></div>
+            <div class="mock-btns"><span>Inspect</span><span class="on">Run</span></div>
+          </div>
+        </article>
+        <article class="card c4" data-reveal data-spot>
+          <div class="card-copy">
+            <h3>Access that follows payment</h3>
+            <p>Attach features, quotas and rules to every tier. Doors open the instant funds land, matched to what was bought.</p>
+          </div>
+          <div class="mock mock-access" aria-hidden="true">
+            <div class="acc on"><span>Dashboard</span><i class="tog"></i></div>
+            <div class="acc on"><span>Request quota</span><i class="tog"></i></div>
+            <div class="acc"><span>Team seats</span><i class="tog"></i></div>
+          </div>
+        </article>
+        <article class="card c5" data-reveal data-spot>
+          <div class="card-copy">
+            <h3>Shareable pay links</h3>
+            <p>Spin up a URL per amount, open bill or extra item. Buyers connect, settle in stablecoin, and every attempt is recorded.</p>
+          </div>
+          <div class="mock mock-pay" aria-hidden="true">
+            <div class="mock-title">Pay page</div>
+            <div class="ph ph-xl"></div>
+            <div class="steps"><span class="done">Details</span><span class="now">Payment</span><span>Connect</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section class="sec sec-tint" id="why">
+    <div class="wrap two">
+      <div class="sec-head" data-stagger>
+        <p class="eyebrow" data-reveal>Why Accumout</p>
+        <h2 data-reveal>Reasons builders switch.</h2>
+        <p class="lede" data-reveal>Legacy card stacks treat crypto as a bolt-on. Accumout begins with the signer and grows outward, so tiers, metering and bot spend read from one ledger.</p>
+      </div>
+      <div class="why-grid" data-stagger>
+        <article class="why" data-reveal data-spot><span class="num">01</span><h3>Checkout that speaks wallet</h3><p>Payment happens where the customer already holds funds, with no card form to bolt on.</p></article>
+        <article class="why" data-reveal data-spot><span class="num">02</span><h3>Funds stay with their owner</h3><p>Clearing never parks money with us. Rules execute against contracts plus a vault that you control.</p></article>
+        <article class="why" data-reveal data-spot><span class="num">03</span><h3>Money and permissions in lockstep</h3><p>Tiers, quotas and permissions move as one, so whatever a buyer paid for is what they can reach.</p></article>
+        <article class="why" data-reveal data-spot><span class="num">04</span><h3>Made for machine buyers</h3><p>Autonomous software can pay per call under a cap, which suits APIs, metered tools and bot marketplaces.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FLOW -->
+  <section class="sec sec-dark sec-tall" id="flow">
+    <div class="wrap">
+      <div class="sec-head center" data-stagger>
+        <p class="eyebrow eyebrow-light" data-reveal>Flow</p>
+        <h2 data-reveal>One hub sits between software you ship and the chain.</h2>
+        <p class="lede" data-reveal>Pricing rules live beside your code, not inside it, so tiers, rates and credit packs can shift without re-plumbing checkout.</p>
+      </div>
+      <div class="flow" data-reveal>
+        <svg class="flow-lines" viewBox="0 0 1000 420" preserveAspectRatio="none" aria-hidden="true">
+          <g fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke">
+            <path class="ln" d="M250 50 C 380 50, 380 210, 440 210"/>
+            <path class="ln" d="M250 130 C 360 130, 380 210, 440 210"/>
+            <path class="ln" d="M250 210 L 440 210"/>
+            <path class="ln" d="M250 290 C 360 290, 380 210, 440 210"/>
+            <path class="ln" d="M250 370 C 380 370, 380 210, 440 210"/>
+            <path class="ln" d="M560 210 C 620 210, 620 80, 750 80"/>
+            <path class="ln" d="M560 210 L 750 210"/>
+            <path class="ln" d="M560 210 C 620 210, 620 340, 750 340"/>
+          </g>
+        </svg>
+        <ul class="nodes nodes-l">
+          <li>Pricing screens</li><li>Permission rules</li><li>Usage meters</li><li>Feature switches</li><li>Agent wallets</li>
+        </ul>
+        <div class="hub"><img src="assets/icon-192.png" width="96" height="96" alt="" decoding="async"><b>Accumout</b></div>
+        <ul class="nodes nodes-r">
+          <li>Webhooks and API</li><li>Your apps</li><li>Clearing over Solana</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODULES -->
+  <section class="sec" id="modules">
+    <div class="wrap two">
+      <div class="sec-head" data-stagger>
+        <p class="eyebrow" data-reveal>Modules</p>
+        <h2 data-reveal>Screens that match your brand.</h2>
+        <p class="lede" data-reveal>Assemble price tables, pay pages and status panels from drop-in blocks, and restyle them all using one panel. No iframe wrestling.</p>
+        <ul class="ticks" data-stagger>
+          <li data-reveal><b>Pricing and checkout blocks</b><span>Compare tiers, pay, and show status from ready parts.</span></li>
+          <li data-reveal><b>Remote layout control</b><span>Reorder and reword blocks without redeploying every app that embeds them.</span></li>
+          <li data-reveal><b>Frameless embeds</b><span>Operate one pay surface over many products with matching styling.</span></li>
+        </ul>
+      </div>
+      <div class="canvas" data-reveal data-spot>
+        <div class="canvas-bar">
+          <div class="tabs tabs-sm" role="tablist" aria-label="Module preview" id="mod-tabs">
+            <button role="tab" type="button" aria-selected="true" data-mod="pricing">Pricing</button>
+            <button role="tab" type="button" aria-selected="false" data-mod="checkout">Checkout</button>
+            <button role="tab" type="button" aria-selected="false" data-mod="status">Status</button>
+          </div>
+        </div>
+        <div class="canvas-body">
+          <div class="mod on" data-pane="pricing">
+            <div class="tier"><span class="tier-n">Builder</span><span class="tier-p"><em>pending</em></span><i class="ph"></i><i class="ph s"></i></div>
+            <div class="tier hot"><span class="tier-n">Growth</span><span class="tier-p"><em>pending</em></span><i class="ph"></i><i class="ph s"></i></div>
+            <div class="tier"><span class="tier-n">Enterprise</span><span class="tier-p"><em>pending</em></span><i class="ph"></i><i class="ph s"></i></div>
+          </div>
+          <div class="mod" data-pane="checkout">
+            <div class="co"><b>Order summary</b><i class="ph"></i><i class="ph s"></i><div class="co-line"></div><div class="co-row"><span>Total</span><i class="ph"></i></div><span class="co-btn">Link signer</span></div>
+          </div>
+          <div class="mod" data-pane="status">
+            <div class="st"><div class="st-row"><b>Current plan</b><i class="ph"></i></div><div class="st-row"><b>Next renewal</b><i class="ph"></i></div><div class="st-row"><b>Usage</b><div class="meter sm"><i></i></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- USE CASES -->
+  <section class="sec sec-tint" id="build">
+    <div class="wrap">
+      <div class="sec-head" data-stagger>
+        <p class="eyebrow" data-reveal>Use cases</p>
+        <h2 data-reveal>What you can ship with it.</h2>
+        <p class="lede" data-reveal>From metered APIs to bot marketplaces, every flow clears over Solana.</p>
+      </div>
+      <div class="cases" data-stagger>
+        <article class="case case-hero" data-reveal data-spot>
+          <span class="tag" data-rec="chain" data-chain><span data-chain-text>Network</span></span>
+          <h3>One network, every flow</h3>
+          <p>Renewals, meters and bot spend all land on one chain, so reconciling them takes a single query.</p>
+          <span class="chip" data-rec="ca"><span data-label>Contract</span><em>pending</em></span>
+        </article>
+        <article class="case" data-reveal data-spot><h3>Subscriptions</h3><p>Recurring tiers that roll forward on a signature.</p></article>
+        <article class="case" data-reveal data-spot><h3>Metered APIs</h3><p>Charge per call and cap the burn.</p></article>
+        <article class="case" data-reveal data-spot><h3>Bot commerce</h3><p>Let software buy within a budget.</p></article>
+        <article class="case" data-reveal data-spot><h3>Gated content</h3><p>Unlock pages the moment payment clears.</p></article>
+        <article class="case" data-reveal data-spot><h3>Invoices and links</h3><p>One URL per amount, extra or bill.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="sec cta" id="cta">
+    <div class="wrap center">
+      <div data-stagger>
+        <h2 class="cta-title" data-reveal>Build on Accumout first.</h2>
+        <p class="lede" data-reveal>Tell us what you are shipping and we will line up onboarding.</p>
+        <div data-reveal><span class="btn btn-solid btn-inert" data-rec="access" aria-disabled="true"><span data-label>Join the invite list</span><em>pending</em></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORD STRIP -->
+  <section class="wordstrip" aria-hidden="true">
+    <div class="word-track">
+      <span>ACCUMOUT</span><i></i><span>SOLANA</span><i></i><span>ACCUMOUT</span><i></i><span>SOLANA</span><i></i><span>ACCUMOUT</span><i></i><span>SOLANA</span><i></i>
+      <span>ACCUMOUT</span><i></i><span>SOLANA</span><i></i><span>ACCUMOUT</span><i></i><span>SOLANA</span><i></i><span>ACCUMOUT</span><i></i><span>SOLANA</span><i></i>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="brand brand-foot"><img src="assets/icon-96.png" width="40" height="40" alt="" decoding="async"><span>Accumout</span></div>
+        <p>Pay rails for signers, software and bots.</p>
+      </div>
+      <nav class="foot-cols" aria-label="Footer">
+        <div><h4>Explore</h4><a href="#market">Market</a><a href="#features">Features</a><a href="#flow">Flow</a><a href="#modules">Modules</a></div>
+        <div><h4>Resources</h4>
+          <span class="chip chip-foot" data-rec="docs"><span data-label>Documentation</span><em>pending</em></span>
+          <span class="chip chip-foot" data-rec="walkthrough"><span data-label>Walkthrough</span><em>pending</em></span>
+          <span class="chip chip-foot" data-rec="audit"><span data-label>Security review</span><em>pending</em></span>
+        </div>
+        <div><h4>Connect</h4>
+          <span class="chip chip-foot" data-rec="x"><span data-label>X</span><em>pending</em></span>
+          <span class="chip chip-foot" data-rec="github"><span data-label>GitHub</span><em>pending</em></span>
+        </div>
+      </nav>
+    </div>
+    <div class="foot-bot">
+      <span>Accumout. Made for builders.</span>
+      <div class="pill pill-foot" id="foot-pill" data-status="connecting"><i class="pulse" aria-hidden="true"></i><span id="foot-status">Market feed connecting</span></div>
+    </div>
+    <div class="giant" aria-hidden="true">ACCUMOUT</div>
+  </div>
+</footer>
+
+<script type="application/json" id="register">/*REGISTER*/</script>
+<script src="js/app.js" defer></script>
+</body>
+</html>

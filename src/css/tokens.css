@@ -1,0 +1,44 @@
+/*
+  The only file in the project that holds colour literals.
+  Provenance: every value is a real pixel snapped from a supplied asset.
+  Method: k-means (k=6) on the RGB samples of each file, each centroid then
+  snapped to the nearest pixel that actually exists, coordinates below as x,y.
+
+  brand/LOGO ACCUMOUT PNG.png  (2000x2000, IHDR colourtype 6, alpha 255 everywhere)
+    --blue   0356f0  1949,946   89.8% of pixels, icon field
+    --white  fefefe  858,1076    6.4%, mark body
+    --azure  0284f1  1236,1244   3.5%, mark shard
+  brand/LOGO ACCUMOUT PNG...png (colourtype 6, alpha 0 on 3590994 px, all pure black under it,
+    so every resize in prepare-assets.py is premultiplied)
+  reference/ACCUMOUT 1.jpg.jpeg (1600x900, slide set 1 to 6 agree within 1 level)
+    --ink    010204  1043,432   84.5%, slide field
+    --navy   031233  1411,827
+    --deep   1b4180  1587,669
+    --signal 0786f7  570,398    headline blue
+    --ice    dae7fa  1237,347
+    --steel  abacae  515,549    body grey
+  reference/SAMPUL ACCUMOUT JPG.jpg.jpeg (1500x500 banner)
+    --royal  0659e5  797,278    59.1%, banner field
+    --lake   2186f0  848,415
+    --cyan   30c6f9  1201,335
+    --sky    6bc6fb  1319,121
+    --mist   ace6fc  1380,441
+    --frost  ecfafd  1394,480
+*/
+:root {
+  --blue: #0356f0;
+  --white: #fefefe;
+  --azure: #0284f1;
+  --ink: #010204;
+  --navy: #031233;
+  --deep: #1b4180;
+  --signal: #0786f7;
+  --ice: #dae7fa;
+  --steel: #abacae;
+  --royal: #0659e5;
+  --lake: #2186f0;
+  --cyan: #30c6f9;
+  --sky: #6bc6fb;
+  --mist: #ace6fc;
+  --frost: #ecfafd;
+}

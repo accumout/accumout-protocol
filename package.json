@@ -1,0 +1,15 @@
+{
+  "name": "accumout",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Accumout marketing site. Static output in dist/.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "gates": "node scripts/gates.mjs",
+    "serve": "node scripts/serve.mjs"
+  },
+  "devDependencies": {
+    "jsdom": "^26.1.0"
+  }
+}

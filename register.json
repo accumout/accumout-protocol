@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "note": "One record per external fact. state is stated, absent or unconfirmed. Absent and unconfirmed records carry no value and no url. Dates live here as data only and are stripped from the shipped page.",
+  "records": {
+    "ca": { "label": "Contract address", "kind": "address", "state": "absent", "checkedOn": "2026-10-21" },
+    "x": { "label": "X", "kind": "social", "state": "absent", "checkedOn": "2026-10-21" },
+    "github": { "label": "GitHub", "kind": "social", "state": "absent", "checkedOn": "2026-10-21" },
+    "chain": {
+      "label": "Network",
+      "kind": "chain",
+      "state": "stated",
+      "value": "Solana",
+      "rpc": "https://solana-rpc.publicnode.com",
+      "source": "client statement",
+      "scope": "batch-level",
+      "statedOn": "2026-10-21"
+    },
+    "market": {
+      "label": "Market feed",
+      "kind": "market",
+      "state": "stated",
+      "url": "https://api.dexscreener.com/token-boosts/top/v1",
+      "pairsUrl": "https://api.dexscreener.com/tokens/v1/solana/{addresses}",
+      "source": "client statement",
+      "scope": "batch-level",
+      "statedOn": "2026-10-21"
+    },
+    "access": { "label": "Invite list", "kind": "action", "state": "absent", "checkedOn": "2026-10-21" },
+    "docs": { "label": "Documentation", "kind": "link", "state": "absent", "checkedOn": "2026-10-21" },
+    "audit": { "label": "Security review", "kind": "claim", "state": "absent", "checkedOn": "2026-10-21" },
+    "walkthrough": { "label": "Walkthrough", "kind": "media", "state": "absent", "checkedOn": "2026-10-21" }
+  }
+}
